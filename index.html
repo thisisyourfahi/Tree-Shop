@@ -13,14 +13,14 @@
 </head>
 
 <body class="container mx-auto">
-    <h1 class="text-green-600 font-bold text-6xl text-center">Choose Your Plant</h1>
+    <h1 class="text-success font-bold text-6xl text-center">Choose Your Plant</h1>
 
     <main>
-        <section class="grid grid-cols-4">
+        <section class="grid grid-cols-5">
             <!-- left container -->
             <div class="col-span-1 bg-gray-200 p-8 space-y-3">
                 <h2 class="text-center text-2xl font-semibold">Categories</h2>
-                <button id="button-all" class="btn btn-outline w-full btn-success">
+                <button id="all" class="btn btn-outline w-full btn-success">
                     All Trees
                 </button>
 
@@ -30,9 +30,11 @@
                 </div>
             </div>
 
-            <!-- middle container -->
-            <div class="col-span-2 bg-violet-200">
-
+            <!-- middle container displaying trees-->
+            <div class="col-span-3 bg-violet-200 p-8">
+                <div id="trees-container" class="grid grid-cols-3 gap-4">
+                    
+                </div>
             </div>
 
             <!-- cart container -->

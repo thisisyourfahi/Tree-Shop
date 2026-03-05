@@ -6,7 +6,32 @@ const loadCategoreis = async () => {
 }
 loadCategoreis();
 
+const loadTrees = async (category) => {
+    if (category === 'all') {
+        // load all the plants
+        // the url is going to be different
+        const res = await fetch('https://openapi.programming-hero.com/api/plants');
+        const data = await res.json();
+        displayTrees(data.plants);
+    } else {
+        // load particular categories plants
+        // different url
+        const res = await fetch(`https://openapi.programming-hero.com/api/category/${category}`);
+        const data = await res.json();
+        displayTrees(data.plants);
+    }
+}
+
+loadTrees('all');
+
 // display functions
+const displayTrees = plants => {
+    const treesContainerElement = document.getElementById('trees-container');
+    plants.forEach(plant => {
+        const plantElement = createPlantElement(plant);
+        treesContainerElement.appendChild(plantElement);
+    });
+}
 const displayCategories = (categories) => {
     const categoriesButtonElement = document.getElementById('categories-buttons');
     categories.forEach(cat => {
@@ -20,9 +45,31 @@ const displayCategories = (categories) => {
 const createCategoriesButton = cat => {
     const btn = document.createElement('button');
     btn.className = "btn btn-outline w-full btn-success";
-    btn.id = `button-${cat.id}`
+    btn.id = `${cat.id}`
     btn.innerHTML = `
         ${cat.category_name}
     `;
     return btn;
+}
+
+const createPlantElement = plant => {
+    const plnt = document.createElement('div');
+    plnt.className = 'card bg-base-100 shadow-sm';
+    plnt.id = `${plant.id}`;
+    plnt.innerHTML = `
+        <figure class="h-[200px]">
+            <img src="${plant.image}" alt="">
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">${plant.name}</h2>
+            <p class="line-clamp-2">${plant.description}
+            </p>
+            <div class="badge badge-outline badge-success">${plant.category}</div>
+            <div class="card-actions justify-between items-center">
+                <p class="text-success text-2xl">$${plant.price}</p>
+                <button class="btn btn-sm btn-success">Buy Now</button>
+            </div>
+        </div>
+    `;
+    return plnt;
 }
