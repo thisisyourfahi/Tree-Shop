@@ -1,3 +1,17 @@
+// style on active category button
+let buttons = [];
+const activeInactive = id => {
+    buttons.forEach(button => {
+        const buttonElement = document.getElementById(button);
+        if (button === id) {
+            buttonElement.classList.remove('btn-outline');
+        } else {
+            buttonElement.classList.add('btn-outline');
+        }
+    });
+}
+
+
 // load functions
 const loadCategoreis = async () => {
     const res = await fetch('https://openapi.programming-hero.com/api/categories');
@@ -7,7 +21,7 @@ const loadCategoreis = async () => {
 loadCategoreis();
 
 const loadTrees = async (category) => {
-    if (category === 'all') {
+    if (category === 'button-all') {
         // load all the plants
         // the url is going to be different
         const res = await fetch('https://openapi.programming-hero.com/api/plants');
@@ -20,9 +34,10 @@ const loadTrees = async (category) => {
         const data = await res.json();
         displayTrees(data.plants);
     }
+    activeInactive(category);
 }
 
-loadTrees('all');
+loadTrees('button-all');
 
 // display functions
 const displayTrees = plants => {
@@ -38,14 +53,15 @@ const displayCategories = (categories) => {
         const btn = createCategoriesButton(cat);
         categoriesButtonElement.appendChild(btn);
     });
-
+    buttons.push('button-all');
 }
 
 // create html elements
 const createCategoriesButton = cat => {
     const btn = document.createElement('button');
     btn.className = "btn btn-outline w-full btn-success";
-    btn.id = `${cat.id}`
+    btn.id = `button-${cat.id}`
+    buttons.push(btn.id);
     btn.innerHTML = `
         ${cat.category_name}
     `;
@@ -73,3 +89,5 @@ const createPlantElement = plant => {
     `;
     return plnt;
 }
+
+
