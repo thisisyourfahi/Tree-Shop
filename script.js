@@ -30,7 +30,8 @@ const loadTrees = async (category) => {
     } else {
         // load particular categories plants
         // different url
-        const res = await fetch(`https://openapi.programming-hero.com/api/category/${category}`);
+        const id = category.split('-')[1];
+        const res = await fetch(`https://openapi.programming-hero.com/api/category/${id}`);
         const data = await res.json();
         displayTrees(data.plants);
     }
@@ -40,8 +41,34 @@ const loadTrees = async (category) => {
 loadTrees('button-all');
 
 // display functions
+const displayTreeInfo = plant => {
+    console.log('hello from info', plant);
+    const modal = document.getElementById('plant-info-modal');
+    modal.innerHTML = '';
+    const div = document.createElement('div');
+    div.className = 'modal-box space-y-2';
+    div.innerHTML = `
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-error absolute right-2 top-2">✕</button>
+        </form>
+        <h3 class="text-2xl text-success font-semibold">${plant.name}</h3>
+        <figure class="h-[300px] cursor-pointer">
+            <img src="${plant.image}" alt="" class="w-full h-full object-cover">
+        </figure>
+        <div class="badge badge-outline badge-success">${plant.category}</div>
+        <p>
+            Description: ${plant.description}
+        </p>
+        <div class="card-actions justify-between items-center">
+            <p class="text-success text-2xl">$${plant.price}</p>
+        </div>
+    `;
+    modal.appendChild(div);
+    modal.showModal();
+}
 const displayTrees = plants => {
     const treesContainerElement = document.getElementById('trees-container');
+    treesContainerElement.innerHTML = '';
     plants.forEach(plant => {
         const plantElement = createPlantElement(plant);
         treesContainerElement.appendChild(plantElement);
@@ -65,6 +92,9 @@ const createCategoriesButton = cat => {
     btn.innerHTML = `
         ${cat.category_name}
     `;
+    btn.onclick = function() {
+        loadTrees(btn.id);
+    }
     return btn;
 }
 
@@ -73,7 +103,7 @@ const createPlantElement = plant => {
     plnt.className = 'card bg-base-100 shadow-sm';
     plnt.id = `${plant.id}`;
     plnt.innerHTML = `
-        <figure class="h-[200px]">
+        <figure onclick='displayTreeInfo(${JSON.stringify(plant)})' id='figure' class="h-[200px] cursor-pointer">
             <img src="${plant.image}" alt="">
         </figure>
         <div class="card-body">
@@ -87,7 +117,11 @@ const createPlantElement = plant => {
             </div>
         </div>
     `;
+    // plnt.onclick = function() {
+    //     displayTreeInfo(plant);
+    // }
     return plnt;
 }
 
 
+// event listener
