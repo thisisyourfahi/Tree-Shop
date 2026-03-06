@@ -11,7 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!-- fontawesome -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body class="container mx-auto">
@@ -68,6 +70,11 @@
                 <div class="flex justify-between p-2 bg-gray-200 rounded-lg">
                     <p class="font-semibold">Total</p>
                     <p id="total-price" class="font-semibold">$0</p>
+                </div>
+
+                <!-- Check Out -->
+                <div id="check-out" class="flex justify-center">
+                    <button onclick="checkOut()" class="w-full btn btn-success">Check Out</button>
                 </div>
             </div>
         </section>

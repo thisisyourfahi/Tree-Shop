@@ -156,14 +156,17 @@ const updateCart = () => {
     const emptyCart = document.getElementById('empty-cart');
     const totalPrice = document.getElementById('total-price');
     const cartItems = document.getElementById('cart-items');
+    const checkOut = document.getElementById('check-out');
     if (treesInCart.length === 0) { 
         emptyCart.classList.remove('hidden');
         cartItems.classList.add('hidden');
+        checkOut.classList.add('hidden');
         totalPrice.textContent = `$${0}`;
         return;
     } else {
         emptyCart.classList.add('hidden');
         cartItems.classList.remove('hidden');
+        checkOut.classList.remove('hidden');
         cartItems.innerHTML = '';
         let newTotal = 0;
         treesInCart.forEach(tree => {
@@ -177,6 +180,12 @@ const updateCart = () => {
 
 const removeFromCart = id => {
     treesInCart = treesInCart.filter(tree => tree.id !== id);
+    updateCart();
+}
+
+const checkOut = () => {
+    alert('The bought trees will be sent to you with one light year. Till then check out my other repositories.');
+    treesInCart.splice(0, treesInCart.length);
     updateCart();
 }
 
