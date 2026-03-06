@@ -113,15 +113,71 @@ const createPlantElement = plant => {
             <div class="badge badge-outline badge-success">${plant.category}</div>
             <div class="card-actions justify-between items-center">
                 <p class="text-success text-2xl">$${plant.price}</p>
-                <button class="btn btn-sm btn-success">Buy Now</button>
+                <button onclick="addToCart(${plant.id}, '${plant.name}', ${plant.price})" class="btn btn-sm btn-success">Buy Now</button>
             </div>
         </div>
     `;
-    // plnt.onclick = function() {
-    //     displayTreeInfo(plant);
-    // }
     return plnt;
 }
 
+const createTreeCart = tree => {
+    const div = document.createElement('div');
+    div.className = "space-y-2 bg-neutral-100 p-2 rounded-sm";
+    div.innerHTML = `
+        <div class="flex justify-between items-center">
+            <p>${tree.name}</p>
+            <button onclick="removeFromCart(${tree.id})" class="btn btn-circle btn-error btn-sm">X</button>
+        </div>
+        <div class="flex justify-between items-center">
+            <p>$${tree.price} X ${tree.quantity}</p>
+            <p>=$${tree.price * tree.quantity}</p>
+        </div>
+    `;
+    return div;
+}
 
-// event listener
+
+// cart
+let treesInCart = [];
+const addToCart = (id, name, price) => {
+    const exist = treesInCart.find(tree => tree.id === id);
+    if (exist) {
+        exist.quantity += 1;
+    } else {
+        treesInCart.push({
+            id, name, price, quantity:1
+        });
+    }
+
+    updateCart();
+}
+
+const updateCart = () => {
+    const emptyCart = document.getElementById('empty-cart');
+    const totalPrice = document.getElementById('total-price');
+    const cartItems = document.getElementById('cart-items');
+    if (treesInCart.length === 0) { 
+        emptyCart.classList.remove('hidden');
+        cartItems.classList.add('hidden');
+        totalPrice.textContent = `$${0}`;
+        return;
+    } else {
+        emptyCart.classList.add('hidden');
+        cartItems.classList.remove('hidden');
+        cartItems.innerHTML = '';
+        let newTotal = 0;
+        treesInCart.forEach(tree => {
+            const div = createTreeCart(tree);
+            cartItems.appendChild(div);
+            newTotal += (tree.price * tree.quantity);
+        });
+        totalPrice.textContent = `$${newTotal}`;
+    }
+}
+
+const removeFromCart = id => {
+    treesInCart = treesInCart.filter(tree => tree.id !== id);
+    updateCart();
+}
+
+updateCart();
